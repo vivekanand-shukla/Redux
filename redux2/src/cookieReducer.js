@@ -1,0 +1,21 @@
+    // <!-- <meta http-equiv="refresh"  content="2"> -->
+    const initialState =  { value : 0 }
+    const cookieReducer =(state = initialState ,action)=>{
+        switch(action.type){
+            case "cookies/added":
+            return {
+                value : state.value + 1
+            }
+            case "cookies/removed":
+                return {
+                    value : state.value -1
+                }
+                default:
+                    return state
+        }
+    }
+
+    export default cookieReducer;
+
+
+
