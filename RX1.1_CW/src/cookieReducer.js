@@ -1,5 +1,4 @@
-    // <!-- <meta http-equiv="refresh"  content="2"> -->
-    const initialState =  { value : 0 }
+const initialState =  { value : 0 }
     const cookieReducer =(state = initialState ,action)=>{
         switch(action.type){
             case "cookies/added":
