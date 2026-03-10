@@ -1,5 +1,5 @@
 import { createStore } from "redux"
-import cartReducer from "./reducer"
+import cartReducer from "./Reducer"
 import { addToCart, removeFromCart, calculateTotal } from "./action"
 
 export function setupRedux() {
