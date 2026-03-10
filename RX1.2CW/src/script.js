@@ -1,9 +1,9 @@
-import {createStore, } from "redux"
+import { createStore  } from "redux"
 import todoReducer from "./todosReducer"
 import {addTodo, RemoveTodo} from "./action"
 export function setupRedux(){
-
-    
+      
+      
 const todoInput = document.querySelector("#todoInput")
 const addTodos = document.querySelector("#addTodo")
 const todoList = document.querySelector("#todoList")
