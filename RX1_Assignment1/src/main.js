@@ -1,24 +1,27 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import {setupRedux} from "./script"
+
+
 
 document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+<div>
 
-setupCounter(document.querySelector('#counter'))
+<h2>Add Task</h2>
+
+<input id="taskId" type="number" placeholder="Task ID">
+<input id="taskName" type="text" placeholder="Task Name">
+<button id="addTask">Add Task</button>
+
+<h2>Remove Task</h2>
+
+<input id="removeId" type="number" placeholder="Task ID">
+<button id="removeTask">Remove Task</button>
+
+<h2>Tasks</h2>
+
+<ul id="taskList"></ul>
+
+<p id="totalTasks"></p>
+
+</div>
+`
+setupRedux()
