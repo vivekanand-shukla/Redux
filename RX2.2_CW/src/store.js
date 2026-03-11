@@ -1,3 +1,4 @@
-import { createStore} from "redux"
+import { createStore ,applyMiddleware} from "redux"
 import finenceReducer from "./finenceReducer"
-export default createStore(finenceReducer)
+import loggermiddleware from "./loggermiddleware"
+export default createStore(finenceReducer, applyMiddleware(loggermiddleware))
