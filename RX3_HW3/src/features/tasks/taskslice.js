@@ -1,40 +1,58 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import axios from "axios"
+
+export const fetchTasks = createAsyncThunk(
+"tasks/fetchTasks",
+async () => {
+
+const response = await axios.get(
+"https://task-list-hw-server-Student-neoG-Ca.replit.app/tasks"
+)
+
+return response.data
+}
+)
 
 export const taskSlice = createSlice({
-    name: "tasks",
+name:"tasks",
 
-    initialState:{
-        tasks:[
-            {
-                date:"15/07/2024",
-                items:[
-                    {id:"t1", task:"Get Groceries from the market", status:"Pending"},
-                    {id:"t2", task:"Go to Gym", status:"Completed"},
-                    {id:"t3", task:"Water the plants", status:"Completed"}
-                ]
-            },
-            {
-                date:"16/07/2024",
-                items:[
-                    {id:"t4", task:"Go to the park", status:"Completed"},
-                    {id:"t5", task:"Get my room cleaned", status:"Pending"}
-                ]
-            }
-        ]
-    },
+initialState:{
+tasks:[],
+status:"idle",
+error:null
+},
 
-    reducers:{
-        toggleStatus:(state,action)=>{
-            
-            const {date,id} = action.payload
+reducers:{
+toggleStatus:(state,action)=>{
 
-            const day = state.tasks.find(d => d.date === date)
+const {date,id} = action.payload
 
-            const task = day.items.find(t => t.id === id)
+const day = state.tasks.find(d => d.date === date)
 
-            task.status = task.status === "Pending" ? "Completed" : "Pending"
-        }
-    }
+const task = day.items.find(t => t.id === id)
+
+task.status = task.status === "Pending" ? "Completed" : "Pending"
+
+}
+},
+
+extraReducers:(builder)=>{
+
+builder.addCase(fetchTasks.pending,(state)=>{
+state.status = "loading"
+})
+
+builder.addCase(fetchTasks.fulfilled,(state,action)=>{
+state.status = "success"
+state.tasks = action.payload.tasks
+})
+
+builder.addCase(fetchTasks.rejected,(state,action)=>{
+state.status = "error"
+state.error = action.error.message
+})
+
+}
 
 })
 

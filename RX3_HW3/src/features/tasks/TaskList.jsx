@@ -1,14 +1,16 @@
-import React from 'react'
+import React, {useEffect} from "react"
 import {useSelector,useDispatch} from "react-redux"
-import {toggleStatus} from "./taskslice"
+import {toggleStatus, fetchTasks} from "./taskslice"
 
 const TaskList = () => {
 
 const dispatch = useDispatch()
 
-const tasks = useSelector((state)=>{
-    return state.tasks.tasks
-})
+const {tasks,status,error} = useSelector((state)=>state.tasks)
+
+useEffect(()=>{
+dispatch(fetchTasks())
+},[])
 
 return (
 
@@ -16,8 +18,11 @@ return (
 
 <h1>My Task List</h1>
 
+{status === "loading" && <p>Loading...</p>}
+{error && <p>{error}</p>}
+
 {
-tasks.map((day)=>(
+tasks?.map((day)=>(
 <div key={day.date}>
 
 <h2>{day.date}</h2>
@@ -34,6 +39,7 @@ day.items.map((task)=>(
 onClick={()=>dispatch(toggleStatus({date:day.date,id:task.id}))}
 style={{marginLeft:"10px"}}
 >
+
 {task.status}
 
 </button>
@@ -51,6 +57,7 @@ style={{marginLeft:"10px"}}
 </div>
 
 )
+
 }
 
 export default TaskList
