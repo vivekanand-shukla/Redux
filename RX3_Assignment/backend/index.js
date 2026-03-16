@@ -14,6 +14,7 @@ app.get("/", (req, res) => {
   res.send("Hello, Express!");
 });
 
+// GET all students
 app.get("/students", async (req, res) => {
   try {
     const students = await Student.find();
@@ -23,18 +24,34 @@ app.get("/students", async (req, res) => {
   }
 });
 
-app.post("/students", async (req, res) => {
-  const { name, age, grade } = req.body;
-
+// GET single student by ID  ← ADDED
+app.get("/students/:id", async (req, res) => {
   try {
-    const student = new Student({ name, age, grade });
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ error: "Student not found" });
+    }
+    res.json(student);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// POST create student
+// BUG FIX: was only saving name/age/grade — now saves all fields including gender, marks, attendance
+app.post("/students", async (req, res) => {
+  try {
+    const student = new Student(req.body);
     await student.save();
     res.status(201).json(student);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
+// PUT update student
 app.put("/students/:id", async (req, res) => {
   const studentId = req.params.id;
   const updatedStudentData = req.body;
@@ -43,7 +60,7 @@ app.put("/students/:id", async (req, res) => {
     const updatedStudent = await Student.findByIdAndUpdate(
       studentId,
       updatedStudentData,
-      { new: true },
+      { new: true }
     );
 
     if (!updatedStudent) {
@@ -57,22 +74,21 @@ app.put("/students/:id", async (req, res) => {
   }
 });
 
+// DELETE student
 app.delete("/students/:id", async (req, res) => {
   const studentId = req.params.id;
 
   try {
-    const deletedStudent = await Student.findByIdAndRemove(studentId);
+    const deletedStudent = await Student.findByIdAndDelete(studentId);
 
     if (!deletedStudent) {
       return res.status(404).json({ error: "Student not found" });
     }
 
-    res
-      .status(200)
-      .json({
-        message: "Student deleted successfully",
-        student: deletedStudent,
-      });
+    res.status(200).json({
+      message: "Student deleted successfully",
+      student: deletedStudent,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
