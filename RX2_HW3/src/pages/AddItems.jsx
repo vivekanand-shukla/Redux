@@ -13,16 +13,18 @@ function AddItems(){
   const handleAdd = (e)=>{
     e.preventDefault()
 
-    if(type === "add"){
+    if(type === "addToStore"){
       dispatch(addToStorage({
         itemName,
-        quantity: parseInt(quantity)
+        itemQuantity: parseInt(quantity),
+     entryType: "add"
       }))
     }
     else{
       dispatch(removeFromStorage({
         itemName,
-        quantity: parseInt(quantity)
+        itemQuantity: parseInt(quantity),
+            entryType: "remove"
       }))
     }
 
@@ -58,8 +60,8 @@ function AddItems(){
         onChange={(e)=>setType(e.target.value)}
         >
           <option value="">Select</option>
-          <option value="add">Add to Storage</option>
-          <option value="remove">Remove from Storage</option>
+          <option value="addToStore">Add to Storage</option>
+          <option value="removeFromStore">Remove from Storage</option>
         </select>
 
         <button type="submit">

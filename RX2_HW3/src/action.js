@@ -41,6 +41,7 @@ export const removeFromStorage = (item) => async (dispatch) => {
       type: "REMOVE_STORAGE_SUCCESS",
       payload: data.data
     })
+      dispatch(fetchStorage())
   }
 
 }

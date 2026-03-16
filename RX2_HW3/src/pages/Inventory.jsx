@@ -20,7 +20,8 @@ function Inventory(){
   const handleRemove = (itemName) => {
   dispatch(removeFromStorage({
     itemName,
-    quantity:1
+    itemQuantity:1,
+     entryType: "remove"
   }))
 }
 
@@ -31,10 +32,10 @@ function Inventory(){
 
       <ul>
 {items.map((item , index)=>(
-  <li key={index}>
+  <li key={item?._id}  style={{ margin : "10px"}}>
     {item.itemName} : {item.itemQuantity}
 
-    <button
+    <button style={{ marginLeft : "30px"}}
     onClick={()=>handleRemove(item.itemName)}
     >
     Remove
