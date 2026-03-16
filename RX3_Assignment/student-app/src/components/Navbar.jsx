@@ -4,7 +4,7 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
       <div className="container-fluid px-3">
-        <span className="navbar-brand fw-semibold">Student Management System</span>
+        <NavLink  to="/"  className="navbar-brand fw-semibold">Student Management System</NavLink>
         <button
           className="navbar-toggler"
           type="button"
