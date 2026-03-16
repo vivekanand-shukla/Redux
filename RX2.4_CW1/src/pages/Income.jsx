@@ -8,7 +8,7 @@ dispatch(fetchIncome())
     },[])
 
   const income = useSelector((state)=>state.income)
-  console.log(income)
+  console.log("hi",income)
   const totalIncome = income.reduce((acc ,crr )=>  crr.amount + acc ,0)
   return (
     <div>

@@ -15,11 +15,11 @@ function Remaining(){
   const removed = useSelector(state => state.removedItems)
 
   const totalStorage = storage.reduce(
-    (acc , curr)=> acc + curr.quantity ,0
+    (acc , curr)=> acc + curr.itemQuantity ,0
   )
 
   const totalRemoved = removed.reduce(
-    (acc , curr)=> acc + curr.quantity ,0
+    (acc , curr)=> acc + curr.itemQuantity ,0
   )
 
   const remaining = totalStorage - totalRemoved

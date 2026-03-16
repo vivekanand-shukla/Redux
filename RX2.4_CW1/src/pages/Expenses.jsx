@@ -8,7 +8,7 @@ dispatch(fetchExpenses())
     },[])
 
   const expense = useSelector((state)=>state.expense)
-  console.log(expense)
+  console.log("hi",expense.map(p => p))
   const totalExpenses = expense.reduce((acc ,crr )=>  crr.amount + acc ,0)
   return (
     <div>

@@ -13,7 +13,7 @@ function Removed(){
   const items = useSelector(state => state.removedItems)
 
   const total = items.reduce(
-    (acc , curr)=> acc + curr.quantity ,
+    (acc , curr)=> acc + curr.itemQuantity ,
     0
   )
 
@@ -25,7 +25,7 @@ function Removed(){
       <ul>
         {items.map((item , index)=>(
           <li key={index}>
-            {item.itemName} : {item.quantity}
+            {item.itemName} : {item.itemQuantity}
           </li>
         ))}
       </ul>

@@ -11,9 +11,9 @@ function Inventory(){
   },[])
 
   const items = useSelector(state => state.storageItems)
-
+ console.log(items)
   const total = items.reduce(
-    (acc , curr)=> acc + curr.quantity ,
+    (acc , curr)=> acc + curr.itemQuantity ,
     0
   )
 
@@ -25,7 +25,7 @@ function Inventory(){
       <ul>
         {items.map((item , index)=>(
           <li key={index}>
-            {item.itemName} : {item.quantity}
+            {item.itemName} : {item.itemQuantity}
           </li>
         ))}
       </ul>
