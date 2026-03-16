@@ -36,7 +36,7 @@ function AddItems(){
 
       <h1>Inventory Admin App</h1>
 
-      <form>
+      <form  onSubmit={handleAdd}>
 
         <label>Item Name:</label>
         <input
@@ -62,7 +62,7 @@ function AddItems(){
           <option value="remove">Remove from Storage</option>
         </select>
 
-        <button onClick={handleAdd}>
+        <button type="submit">
           Add Item Data
         </button>
 
