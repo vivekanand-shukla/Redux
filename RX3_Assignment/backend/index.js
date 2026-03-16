@@ -38,8 +38,7 @@ app.get("/students/:id", async (req, res) => {
   }
 });
 
-// POST create student
-// BUG FIX: was only saving name/age/grade — now saves all fields including gender, marks, attendance
+
 app.post("/students", async (req, res) => {
   try {
     const student = new Student(req.body);
