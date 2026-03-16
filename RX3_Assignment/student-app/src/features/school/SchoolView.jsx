@@ -15,55 +15,27 @@ export default function SchoolView() {
       return
     }
 
-    const total         = students.length
-    const sumAttendance = students.reduce((acc, s) => acc + (s.attendance || 0), 0)
-    const sumMarks      = students.reduce((acc, s) => acc + (s.marks      || 0), 0)
-    const top           = [...students].sort((a, b) => (b.marks || 0) - (a.marks || 0))[0]
+    const total    = students.length
+    const sumAtt   = students.reduce((acc, s) => acc + (s.attendance || 0), 0)
+    const sumMarks = students.reduce((acc, s) => acc + (s.marks      || 0), 0)
+    const top      = [...students].sort((a, b) => (b.marks || 0) - (a.marks || 0))[0]
 
     dispatch(updateSchoolStats({
       totalStudents:     total,
-      averageAttendance: sumAttendance / total,
-      averageMarks:      sumMarks      / total,
+      averageAttendance: sumAtt   / total,
+      averageMarks:      sumMarks / total,
     }))
     dispatch(setTopStudent(top))
   }, [students, dispatch])
 
-  const stats = [
-    { icon: "🎓", val: totalStudents,              key: "Total Students" },
-    { icon: "📅", val: averageAttendance.toFixed(2), key: "Avg Attendance" },
-    { icon: "📝", val: averageMarks.toFixed(2),      key: "Avg Marks" },
-  ]
-
   return (
-    <div className="page-wrap">
-      <div className="page-head">
-        <div>
-          <h1 className="page-title">School View</h1>
-          <p className="page-sub">School-wide statistics at a glance</p>
-        </div>
-      </div>
+    <div className="container mt-4">
+      <h1>School View</h1>
 
-      <div className="stat-grid">
-        {stats.map((s) => (
-          <div key={s.key} className="stat-card">
-            <div className="stat-icon">{s.icon}</div>
-            <div className="stat-val">{s.val}</div>
-            <div className="stat-key">{s.key}</div>
-          </div>
-        ))}
-      </div>
-
-      <div className="top-banner">
-        <div className="top-banner-label">Top Performing Student</div>
-        <div className="top-banner-name">
-          {topStudent ? topStudent.name : "—"}
-        </div>
-        {topStudent && (
-          <div className="top-banner-meta">
-            Marks: {topStudent.marks ?? "—"} &nbsp;·&nbsp; Attendance: {topStudent.attendance ?? "—"}
-          </div>
-        )}
-      </div>
+      <p>Total Students: {totalStudents}</p>
+      <p>Average Attendance: {averageAttendance.toFixed(2)}</p>
+      <p>Average Marks: {averageMarks.toFixed(2)}</p>
+      <p>Top Student: {topStudent ? topStudent.name : "-"}</p>
     </div>
   )
 }

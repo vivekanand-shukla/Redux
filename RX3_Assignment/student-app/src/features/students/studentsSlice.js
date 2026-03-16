@@ -14,8 +14,18 @@ export const fetchStudents = createAsyncThunk(
 export const addStudentAsync = createAsyncThunk(
   "students/addStudent",
   async (newStudent) => {
-    const response = await axios.post(`${API}/students`, newStudent)
-    return response.data
+    // Hosted backend POST only saves name/age/grade (bug in their code)
+    // So: POST to create → immediately PUT to save gender/marks/attendance
+    const { name, age, grade, ...rest } = newStudent
+    const postRes = await axios.post(`${API}/students`, { name, age, grade })
+    const created = postRes.data
+
+    if (Object.keys(rest).length > 0) {
+      const putRes = await axios.put(`${API}/students/${created._id}`, rest)
+      return putRes.data
+    }
+
+    return created
   }
 )
 
@@ -67,6 +77,9 @@ export const studentsSlice = createSlice({
       })
       .addCase(addStudentAsync.fulfilled, (state, action) => {
         state.students.push(action.payload)
+      })
+      .addCase(addStudentAsync.rejected, (state, action) => {
+        state.error = action.error.message
       })
       .addCase(updateStudentAsync.fulfilled, (state, action) => {
         const index = state.students.findIndex(s => s._id === action.payload._id)

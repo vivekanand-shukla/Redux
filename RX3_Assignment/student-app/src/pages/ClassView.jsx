@@ -1,18 +1,9 @@
 import { useSelector, useDispatch } from "react-redux"
 import { setFilter, setSortBy } from "../features/students/studentsSlice"
 
-function avatarClass(gender) {
-  if (gender === "Male")   return "ava-m"
-  if (gender === "Female") return "ava-f"
-  return "ava-n"
-}
-
 export default function ClassView() {
   const dispatch = useDispatch()
   const { students, filter, sortBy } = useSelector((s) => s.students)
-
-  const handleFilterChange = (e) => dispatch(setFilter(e.target.value))
-  const handleSortChange   = (e) => dispatch(setSortBy(e.target.value))
 
   const filtered = students.filter((s) => {
     if (filter === "Boys")  return s.gender === "Male"
@@ -28,75 +19,42 @@ export default function ClassView() {
   })
 
   return (
-    <div className="page-wrap">
-      <div className="page-head">
-        <div>
-          <h1 className="page-title">Class View</h1>
-          <p className="page-sub">
-            Showing {sorted.length} of {students.length} students
-          </p>
-        </div>
+    <div className="container mt-4">
+      <h1>Class View</h1>
+
+      <div className="mb-2">
+        <label className="me-2">Filter by Gender:</label>
+        <select
+          className="form-select d-inline-block w-auto"
+          value={filter}
+          onChange={(e) => dispatch(setFilter(e.target.value))}
+        >
+          <option value="All">All</option>
+          <option value="Boys">Boys</option>
+          <option value="Girls">Girls</option>
+        </select>
       </div>
 
-      <div className="filter-strip">
-        <div className="filter-group">
-          <span className="filter-key">Filter by Gender:</span>
-          <select className="f-select" value={filter} onChange={handleFilterChange}>
-            <option value="All">All</option>
-            <option value="Boys">Boys</option>
-            <option value="Girls">Girls</option>
-          </select>
-        </div>
-
-        <div className="filter-group">
-          <span className="filter-key">Sort by:</span>
-          <select className="f-select" value={sortBy} onChange={handleSortChange}>
-            <option value="name">Name</option>
-            <option value="marks">Marks</option>
-            <option value="attendance">Attendance</option>
-          </select>
-        </div>
+      <div className="mb-3">
+        <label className="me-2">Sort by:</label>
+        <select
+          className="form-select d-inline-block w-auto"
+          value={sortBy}
+          onChange={(e) => dispatch(setSortBy(e.target.value))}
+        >
+          <option value="name">Name</option>
+          <option value="marks">Marks</option>
+          <option value="attendance">Attendance</option>
+        </select>
       </div>
 
-      {sorted.length === 0 ? (
-        <div className="card-base">
-          <div className="state-center">
-            <div className="empty-ico">🔍</div>
-            <div className="state-title">No students match this filter</div>
-          </div>
-        </div>
-      ) : (
-        <div className="card-base">
-          {sorted.map((s, i) => (
-            <div key={s._id} className="class-row">
-              <span className="rank-num">{i + 1}</span>
-              <div className={`ava ${avatarClass(s.gender)}`}>
-                {s.name.charAt(0).toUpperCase()}
-              </div>
-              <div className="sr-info">
-                <div className="sr-name">{s.name}</div>
-                <div className="sr-meta">
-                  {s.gender || "—"} · Grade {s.grade || "—"}
-                </div>
-              </div>
-              <div className="class-stats">
-                <div className="cs-block">
-                  <div className="cs-val">
-                    {s.marks != null ? s.marks : <span style={{ color: "#94a3b8" }}>—</span>}
-                  </div>
-                  <div className="cs-key">Marks</div>
-                </div>
-                <div className="cs-block">
-                  <div className="cs-val">
-                    {s.attendance != null ? s.attendance : <span style={{ color: "#94a3b8" }}>—</span>}
-                  </div>
-                  <div className="cs-key">Attend.</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <ul>
+        {sorted.map((s) => (
+          <li key={s._id}>
+            {s.name} - {s.gender} - Marks: {s.marks ?? "Unknown"} - Attendance: {s.attendance ?? "Unknown"}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

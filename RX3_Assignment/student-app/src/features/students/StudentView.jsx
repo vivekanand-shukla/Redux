@@ -13,36 +13,18 @@ export default function StudentView() {
   }, [dispatch])
 
   return (
-    <div className="page-wrap">
-      <div className="page-head">
-        <div>
-          <h1 className="page-title">Student View</h1>
-          <p className="page-sub">
-            {students.length > 0
-              ? `${students.length} students enrolled`
-              : "Manage your students"}
-          </p>
-        </div>
-        <Link to="/add-student" className="btn-sms btn-gold">
-          + Add Student
-        </Link>
-      </div>
+    <div className="container mt-4">
+      <h1>Student View</h1>
 
-      {status === "loading" && (
-        <div className="state-center">
-          <div className="spinner" />
-          <div className="state-sub">Fetching students…</div>
-        </div>
-      )}
+      <Link to="/add-student" className="btn btn-warning mb-3">
+        Add student
+      </Link>
 
-      {error && <div className="alert-err">⚠️ {error}</div>}
+      {status === "loading" && <p>Loading...</p>}
+      {error && <p className="text-danger">Error: {error}</p>}
 
-      {status !== "loading" && (
-        <>
-          <div className="section-label">Student List</div>
-          <StudentList students={students} />
-        </>
-      )}
+      <h2>Student List</h2>
+      <StudentList students={students} />
     </div>
   )
 }
